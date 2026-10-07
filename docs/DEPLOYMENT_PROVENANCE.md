@@ -131,3 +131,17 @@ on-chain, even by the factory admin — the bounds are a contract-level
 invariant, not just a UI constraint. New pools default to a 75 bps treasury
 fee so registry metadata is never below the floor. Tests live in
 `contracts/vault-factory/src/test.rs`.
+
+---
+
+## Record Provenance Tracking (#867)
+
+`lib/record-provenance.ts` provides provenance metadata and lineage tracing for imported and derived domain records across VaultQuest workflows.
+
+### Capabilities
+- **Imported Records**: Captures `source: "import_batch"`, `importBatchId`, `transformVersion`, and `actor` metadata.
+- **Derived Records**: Links derived records to source records (`sourceRecordIds`, `derivedFrom`, `transformVersion`).
+- **Updates & Lineage**: Preserves original provenance metadata and tracks modification history over time (`updateRecordPreservingProvenance`).
+- **Deleted Source Resilience**: Source record deletion updates `parentDeleted: true` while preserving the full origin trace (`handleDeletedSourceRecord`).
+- **Maintainer Export**: Generates export reports (`exportProvenanceReport`) for maintainers containing summary statistics and detailed lineage.
+
