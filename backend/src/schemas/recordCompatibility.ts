@@ -1,11 +1,12 @@
 import { z } from "zod";
 
 /**
- * #803 — compatibility layer for versioned record schemas.
+ * #822 — EduVault & VaultQuest: compatibility layer for versioned API and record schemas.
  *
- * VaultQuest persists domain records (vault accounting, prize draws, wallet
- * flows) that were written by several generations of clients. This module is
- * the single place that knows how those generations relate:
+ * EduVault and VaultQuest persist domain records (student-owned Web3 storage,
+ * learning marketplace flows, vault accounting, prize draws, wallet flows) that
+ * were written by several generations of clients. This module is the single place
+ * that knows how those generations relate:
  *
  * - **Version metadata.** Every record carries a `schemaVersion`. Records
  *   written before versioning existed have no metadata; they are treated as

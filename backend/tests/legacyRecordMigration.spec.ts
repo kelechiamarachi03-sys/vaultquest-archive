@@ -16,7 +16,7 @@ import {
 } from "../src/schemas/recordCompatibility.js";
 
 /**
- * #803 — compatibility layer contract tests.
+ * #822 — EduVault & VaultQuest compatibility layer contract tests.
  *
  * Every case in `tests/fixtures/legacy-records/README.md` is asserted here:
  * legacy record reads, new writes, and unsupported versions. The fixtures are
