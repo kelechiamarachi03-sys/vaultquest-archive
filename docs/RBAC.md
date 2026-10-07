@@ -58,3 +58,14 @@ follow-up because it changes the client contract.
 
 `ADMIN_WALLET_ADDRESSES` (comma-separated) is the maintainer allowlist. No
 migration is required.
+
+## Permission Diff Preview (#863)
+
+Before applying role, policy, or access updates, maintainers must preview the computed permission diff (`computePermissionDiff` in [`lib/permission-diff.ts`](../lib/permission-diff.ts)).
+
+The preview:
+- Identifies added, removed, and unchanged permissions per role.
+- Lists affected actions and user-facing capabilities.
+- Requires explicit confirmation (`requiresConfirmation: true`) for broad changes (e.g. granting critical admin permissions to user roles, high-volume role modifications, or revoking core user permissions).
+- Protects against unauthorized actors (`PermissionDiffDeniedError`) and stale policy inputs (`StalePolicyInputError`).
+
