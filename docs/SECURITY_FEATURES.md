@@ -271,3 +271,36 @@ Policy: text is **stripped**, URLs are **rejected** (never silently rewritten).
 React escapes text at render time; sanitization on write is defence in depth.
 Not covered: a Content-Security-Policy header (the root layout uses an inline
 theme script and would need a nonce first).
+
+---
+
+## #868: Sensitive Field Access Logging & Anomaly Detection
+
+### Overview
+Access to sensitive fields (e.g. `ssn`, `tax_id`, `private_key`, `secret`, `email`, `wallet_seed`, `vault_pin`) is logged without retaining raw values, capturing authorized and unauthorized attempts, and providing anomaly detection hooks for suspicious patterns.
+
+### Components
+- **SensitiveFieldAccessLogger**: `lib/sensitive-field-access.ts`
+- **Redaction**: Field values are strictly omitted from log entries.
+- **Anomaly Detection Hooks**: Real-time callback alerts for `UNAUTHORIZED_BURST`, `BULK_SENSITIVE_ACCESS`, `UNAUTHORIZED_BULK_ACCESS`, and `RAPID_MULTI_RESOURCE_ACCESS`.
+
+### Usage
+```typescript
+import { sensitiveAccessLogger } from "@/lib/sensitive-field-access";
+
+// Log authorized access
+sensitiveAccessLogger.logAccess({
+  actor: "admin-wallet",
+  purpose: "vault_audit",
+  resourceType: "vault",
+  resourceId: "v-100",
+  fieldNames: ["secret", "email"],
+  authorized: true,
+});
+
+// Register anomaly hook
+sensitiveAccessLogger.onAnomaly((anomaly) => {
+  console.warn(`[ANOMALY ALERT ${anomaly.severity}] ${anomaly.rule}: ${anomaly.description}`);
+});
+```
+
